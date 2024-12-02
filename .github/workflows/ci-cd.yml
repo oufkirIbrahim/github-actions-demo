@@ -1,0 +1,29 @@
+name: CI/CD Pipeline for Calculator
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Cloner le dépôt
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Étape 2 : Installer Java 17
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Étape 3 : Construire le projet
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+      # Étape 4 : Exécuter les tests unitaires
+      - name: Run unit tests
+        run: mvn test
